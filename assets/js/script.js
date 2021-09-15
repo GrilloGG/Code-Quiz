@@ -20,6 +20,8 @@ function startGame(){
     questionShow.style.display = "block";
     randomQuestion = questions.sort(() => Math.random() - .5);
     currentQuestion = 0;
+    scoreBoard.classList.add("score");
+    scoreBoard.textContent = "Score: " + score;
     nextQuestion()
     startTimer()
    
@@ -53,29 +55,6 @@ function cleanScreen(){
 
 }
 
-function correctAnswer(){
-    document.body.classList.add('correct');
-    currentQuestion++;
-    nextQuestion();
-    console.log("correcto");
-}
-
-function wrongAnswer(){
-    if(timerCount <=20){
-        timerCount=0
-        clearInterval(timer)
-        finishGame()
-        console.log("menor de 20")
-    
-    }
-    else {
-        timerCount -= 20
-        currentQuestion++
-        nextQuestion()
-        console.log("mas de 20 error")
-    }
-}
-
 function selectedAnswer(e){
     const clickedButton = e.target;
     const correct = clickedButton.dataset.correct
@@ -84,6 +63,31 @@ function selectedAnswer(e){
     }
     else  {
         wrongAnswer()
+    }
+}
+
+function correctAnswer(){
+    document.body.classList.add('correct');
+    currentQuestion++;
+    nextQuestion();
+    score += 10;
+    scoreBoard.textContent = "Score: " + score;
+    console.log("correcto");
+}
+
+function wrongAnswer(){
+    if(timerCount <=20){
+        clearInterval(timer)
+        timerCount=0
+        finishGame()
+        console.log("menor de 20")
+        
+    }
+    else {
+        timerCount -= 20
+        currentQuestion++
+        nextQuestion()
+        console.log("mas de 20 error")
     }
 }
 
@@ -100,14 +104,13 @@ function startTimer(){
 }    
 
 function startScore(){
-    scoreBoard.classList.add("score");
-    scoreBoard.textContent = "Score: " + score;
     if (correctAnswer()){
         score += 10;
     }
 }
 
 function finishGame(){
+
     return
 }
 
