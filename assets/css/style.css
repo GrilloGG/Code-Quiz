@@ -2,8 +2,8 @@
     --clr-light: #ffeaa7;
     --clr-dark: #636e72;
     --clr-bright: #FEFBF3;
-    --clr-right: #D83A56;
-    --clr-wrong: #66DE93;
+    --clr-wrong: #D83A56;
+    --clr-right: #66DE93;
 }
 
 body{
@@ -39,6 +39,13 @@ p{
     margin-bottom: 5px;
 }
 
+.submit-button{
+    padding: 5px;
+    border-radius: 8px;
+    background-color: var(--clr-bright);
+    margin-bottom: 5px;
+}
+
 .answer-button{
     padding: 5px 8px;
     border-radius: 8px;
@@ -47,6 +54,11 @@ p{
 	flex-direction: column;
 	flex-wrap: nowrap;
 }
+
+.hide{
+    display: block;
+}
+
 
 .show{
     display: none;
@@ -61,19 +73,14 @@ button:hover{
     background-color: var(--clr-light);
     position: absolute;
     top: 0;
-    right: 0;
-    margin-right: 4%;
-    margin-top:12%;  
+    left: 0;
+    margin-left: 4%;
+    margin-top:16%;  
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px 2px;
     font-weight: 900;
     font-size: 30px;
-}
-
-
-.correct{
-    background-color: var(--clr-wrong);
 }
 
 .score{
@@ -81,11 +88,37 @@ button:hover{
     position: absolute;
     top: 0;
     left: 0;
-    margin-left: 8%;
-    margin-top:12%;  
+    margin-left: 7%;
+    margin-top:10%;  
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px 2px;
     font-weight: 900;
     font-size: 30px;
+}
+
+#highscores-table{
+    position:absolute;
+    top: 0;
+    right: 0;
+    margin-right: 1%;
+    max-width: 280px;
+}
+
+.correct{
+    background-color: var(--clr-right);
+}
+
+.wrong{
+    background-color: var(--clr-wrong);
+}
+
+#your-score{
+    margin-bottom: 20px;
+}
+
+
+form{
+    margin-bottom: 10px;
+  
 }

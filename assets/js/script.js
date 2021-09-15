@@ -5,11 +5,18 @@ let questionTitle = document.getElementById("title-question")
 let answerButtons = document.getElementById("buttons-answer")
 let timerClock = document.getElementById("timer")
 let scoreBoard = document.getElementById("score-board")
+let finalScreen = document.getElementById("final-screen")
+let finalScore = document.getElementById("your-score")
+let scorelist = document.getElementById("score-list")
+let scoresTable = document.getElementById("highscores-table")
+let startAgain = document.getElementById("start-again-button")
+
 
 let score = 0 ;
 let timerCount ;
 let randomQuestion ;
 let currentQuestion ;
+
 
 startButton.addEventListener('click', startGame)
 
@@ -24,14 +31,19 @@ function startGame(){
     scoreBoard.textContent = "Score: " + score;
     nextQuestion()
     startTimer()
-   
+    highScores()
     console.log(questions[0].answers)
 }
 
 function nextQuestion(){
     cleanScreen()
-    showQuestion(randomQuestion[currentQuestion])
-    document.body.classList.remove('correct')
+    if (randomQuestion.length > currentQuestion ){
+        showQuestion(randomQuestion[currentQuestion])
+    }
+    else {
+       
+        endScreen()
+    }
 }
 
 function showQuestion(question){
@@ -58,6 +70,7 @@ function cleanScreen(){
 function selectedAnswer(e){
     const clickedButton = e.target;
     const correct = clickedButton.dataset.correct
+    
     if (correct){
         correctAnswer()
     }
@@ -67,52 +80,70 @@ function selectedAnswer(e){
 }
 
 function correctAnswer(){
-    document.body.classList.add('correct');
-    currentQuestion++;
-    nextQuestion();
     score += 10;
     scoreBoard.textContent = "Score: " + score;
+    currentQuestion++;
+    document.body.classList.remove('wrong')
+    document.body.classList.add('correct')
     console.log("correcto");
+    nextQuestion();
 }
 
 function wrongAnswer(){
     if(timerCount <=20){
         clearInterval(timer)
         timerCount=0
-        finishGame()
         console.log("menor de 20")
-        
+        endScreen();
     }
     else {
         timerCount -= 20
         currentQuestion++
+        document.body.classList.add('wrong')
         nextQuestion()
         console.log("mas de 20 error")
     }
 }
 
 function startTimer(){
-    timerCount = 61
+    timerCount = 60
     timerClock.classList.add("timer")
     timer = setInterval( function() {
         timerCount--;
         timerClock.textContent = timerCount + " : Seconds left";
         if (timerCount === 0){
             clearInterval(timer);
+            endScreen();
         }
     }, 1000);
 }    
 
-function startScore(){
-    if (correctAnswer()){
-        score += 10;
-    }
+function highScores(){
+    scoresTable.style.display = "block";
 }
+
+function endScreen(){
+    document.body.classList.remove('wrong')
+    document.body.classList.remove('correct')
+    questionShow.style.display = "none";
+    timerClock.style.display = "none";
+    finalScreen.style.display = "block";
+    scoreBoard.style.display = "none";
+    finalScore.textContent = "Your final score is: " + score;
+    startAgain.addEventListener('click', refreshPage) 
+}
+
+function refreshPage(){
+    window.location.reload();
+}
+
 
 function finishGame(){
 
     return
 }
+
+
 
 const questions = [
     {
@@ -122,8 +153,7 @@ const questions = [
             { text: 'It increments the total length by 1', correct: false},
             { text: 'It prints the first element but no effect on the length', correct: false},
             { text: 'None of the above options', correct: false},
-    ],
-        correctanswer : '0',
+        ]
     },
     {
         question : 'Inside which element do you put JavaScript?',
@@ -132,8 +162,7 @@ const questions = [
             { text: '<script>', correct: true},
             { text: '<section>', correct: false},
             { text: '<code>', correct: false},
-        ],
-        correctanswer : '1',
+        ]
     },
     {
         question : 'How do you get the DOM element with id in JavaScript?',
@@ -142,8 +171,7 @@ const questions = [
             { text: 'page.getElementById(...)', correct: false},
             { text: 'document.getElementById(...)', correct: true},
             { text: 'document.innerHTML.getElementById(...)', correct: false},
-        ],
-        correctanswer : '2',
+        ]
     },
     {
         question : 'How do you create a new function in JavaScript?',
@@ -152,8 +180,7 @@ const questions = [
             { text: 'function = myFunction() {}', correct: false},
             { text: 'function:myFunction() {}', correct: false},
             { text: 'function myFunction() {}', correct: true},
-        ],
-        correctanswer : '3',
+        ]
     },
     {
         question : 'How do you create a JavaScript array?',
@@ -162,7 +189,6 @@ const questions = [
             { text: 'var fruits = "banana", "apple", "peach";', correct: false},
             { text: 'var fruits = (1:"banana", 2:"apple", 3:"peach");', correct: false},
             { text: 'var fruits = 1 = ("banana"), 2 = ("apple"), 3 = ("peach");', correct: false},
-        ],
-        correctanswer : '0',
+        ]
     },
 ];
