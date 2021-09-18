@@ -152,11 +152,11 @@ function renderScores(){
     let highScoresList = JSON.parse(localStorage.getItem("Score"));
 
     for (let i = 0; i < highScoresList.length; i++) {
-        const li = document.createElement("li");
-        li.textContent =
-          "Name: " +
+        let li = document.createElement("li");
+        li.innerHTML =
+          "<b>Name: </b>" +
           highScoresList[i]["name"] +
-          " - Score: " +
+          "<b> - Score: </b>" +
           highScoresList[i]["score"];
         scoreList.appendChild(li);
       }
