@@ -7,10 +7,11 @@ let timerClock = document.getElementById("timer")
 let scoreBoard = document.getElementById("score-board")
 let finalScreen = document.getElementById("final-screen")
 let finalScore = document.getElementById("your-score")
-let scorelist = document.getElementById("score-list")
+let scoreList = document.getElementById("score-list")
 let scoresTable = document.getElementById("highscores-table")
 let startAgain = document.getElementById("start-again-button")
-
+let nameScore = document.getElementById("name")
+let submitScore = document.getElementById("submit")
 
 let score = 0 ;
 let timerCount ;
@@ -18,11 +19,42 @@ let randomQuestion ;
 let currentQuestion ;
 
 
+submitScore.addEventListener("click", function(event){
+    event.preventDefault();
+    if (nameScore.value == ""){
+        window.alert("Please enter a Name");
+        return
+    }
+    let allTheScores = []
+    allTheScores.push ({
+        name: nameScore.value.trim(),
+        score: score,
+    });
+    localStorage.setItem("Score", JSON.stringify(allTheScores))
+    renderScores()
+    nameScore.value = "";
+})
+
+function renderScores(){
+    let highScoresList = JSON.parse(localStorage.getItem("Score"));
+
+    for (let i = 0; i < highScoresList.length; i++) {
+        const li = document.createElement("li");
+        li.textContent =
+          "Name: " +
+          highScoresList[i]["name"] +
+          " - Score: " +
+          highScoresList[i]["score"];
+        scoreList.appendChild(li);
+      }
+}
+
+
+
 startButton.addEventListener('click', startGame)
 
 
 function startGame(){
-    console.log("hi");
     introHide.style.display = "none";
     questionShow.style.display = "block";
     randomQuestion = questions.sort(() => Math.random() - .5);
@@ -32,7 +64,7 @@ function startGame(){
     nextQuestion()
     startTimer()
     highScores()
-    console.log(questions[0].answers)
+    renderScores()
 }
 
 function nextQuestion(){
@@ -43,7 +75,7 @@ function nextQuestion(){
     else {
        
         endScreen()
-    }
+    } 
 }
 
 function showQuestion(question){
@@ -85,7 +117,6 @@ function correctAnswer(){
     currentQuestion++;
     document.body.classList.remove('wrong')
     document.body.classList.add('correct')
-    console.log("correcto");
     nextQuestion();
 }
 
@@ -93,7 +124,6 @@ function wrongAnswer(){
     if(timerCount <=20){
         clearInterval(timer)
         timerCount=0
-        console.log("menor de 20")
         endScreen();
     }
     else {
@@ -101,7 +131,6 @@ function wrongAnswer(){
         currentQuestion++
         document.body.classList.add('wrong')
         nextQuestion()
-        console.log("mas de 20 error")
     }
 }
 
@@ -136,6 +165,7 @@ function endScreen(){
 function refreshPage(){
     window.location.reload();
 }
+
 
 
 function finishGame(){
@@ -191,4 +221,4 @@ const questions = [
             { text: 'var fruits = 1 = ("banana"), 2 = ("apple"), 3 = ("peach");', correct: false},
         ]
     },
-];
+]; 
