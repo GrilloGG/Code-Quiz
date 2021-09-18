@@ -18,41 +18,7 @@ let timerCount ;
 let randomQuestion ;
 let currentQuestion ;
 
-
-submitScore.addEventListener("click", function(event){
-    event.preventDefault();
-    if (nameScore.value == ""){
-        window.alert("Please enter a Name");
-        return
-    }
-    let allTheScores = []
-    allTheScores.push ({
-        name: nameScore.value.trim(),
-        score: score,
-    });
-    localStorage.setItem("Score", JSON.stringify(allTheScores))
-    renderScores()
-    nameScore.value = "";
-})
-
-function renderScores(){
-    let highScoresList = JSON.parse(localStorage.getItem("Score"));
-
-    for (let i = 0; i < highScoresList.length; i++) {
-        const li = document.createElement("li");
-        li.textContent =
-          "Name: " +
-          highScoresList[i]["name"] +
-          " - Score: " +
-          highScoresList[i]["score"];
-        scoreList.appendChild(li);
-      }
-}
-
-
-
 startButton.addEventListener('click', startGame)
-
 
 function startGame(){
     introHide.style.display = "none";
@@ -166,12 +132,36 @@ function refreshPage(){
     window.location.reload();
 }
 
+submitScore.addEventListener("click", function(event){
+    event.preventDefault();
+    if (nameScore.value == ""){
+        window.alert("Please enter a Name");
+        return
+    }
+    let allTheScores = []
+    allTheScores.push ({
+        name: nameScore.value.trim(),
+        score: score,
+    });
+    localStorage.setItem("Score", JSON.stringify(allTheScores))
+    renderScores()
+    nameScore.value = "";
+})
 
+function renderScores(){
+    let highScoresList = JSON.parse(localStorage.getItem("Score"));
 
-function finishGame(){
-
-    return
+    for (let i = 0; i < highScoresList.length; i++) {
+        const li = document.createElement("li");
+        li.textContent =
+          "Name: " +
+          highScoresList[i]["name"] +
+          " - Score: " +
+          highScoresList[i]["score"];
+        scoreList.appendChild(li);
+      }
 }
+
 
 
 
